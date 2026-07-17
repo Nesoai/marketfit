@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketFit — is there room for your move?</title>
+<meta name="description" content="MarketFit sizes the local market for your startup or expansion — first location, new location, vertical or horizontal move — and gives you an honest read: how big the pie is, how crowded the table is, and whether your slice pencils. Free, in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f7f5f0'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%230891b2' stroke-width='2.4'/%3E%3Cpath d='M16 16 L16 7 A9 9 0 0 1 24.5 12.5 Z' fill='%230891b2' opacity='.85'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#f7f5f0">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+const GA_ID="";
+if(GA_ID){const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',GA_ID);}
+</script>
+<style>
+:root{--bg:#f7f5f0;--panel:#ffffff;--card:#ffffff;--line:#e4ded3;--ink:#20242b;--dim:#5c6672;--faint:#94a0ad;
+--teal:#0891b2;--teal-d:#0e7490;--gold:#b45309;--green:#15803d;--bad:#b91c1c;--sky:#0369a1}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--sky)}
+header{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(247,245,240,.92);backdrop-filter:blur(8px);z-index:50}
+#logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.01em}
+#logo b{color:var(--teal)}
+.hsp{flex:1}
+.pill{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:var(--dim);background:var(--card);cursor:pointer}
+.pill.pro{background:linear-gradient(90deg,#0891b2,#0e7490);color:#f0fbff;border:none;font-weight:700}
+.pill.prodone{background:var(--card);color:var(--teal);border:1px solid var(--teal)}
+.tagline{background:linear-gradient(120deg,rgba(8,145,178,.07),rgba(180,83,9,.05));border-bottom:1px solid var(--line);padding:18px 16px;text-align:center}
+.tagline h1{font-family:Fraunces,serif;font-size:clamp(20px,3.4vw,28px)}
+.tagline h1 em{font-style:italic;color:var(--teal)}
+.tagline p{color:var(--dim);font-size:13.5px;margin:6px auto 0;max-width:76ch}
+.flow{display:flex;align-items:stretch;gap:0;max-width:980px;margin:14px auto 0;padding:0 16px}
+.flow .fstep{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;text-align:left;display:flex;gap:10px;align-items:flex-start;min-width:0;box-shadow:0 1px 3px rgba(20,30,40,.04)}
+.flow .fn{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#f0fbff;font-weight:800;font-size:12.5px;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
+.flow .ft b{display:block;font-size:12.5px;color:var(--ink)}
+.flow .ft span{font-size:11.5px;color:var(--dim);line-height:1.45}
+.flow .farrow{align-self:center;color:var(--faint);font-size:17px;padding:0 7px;flex-shrink:0}
+@media(max-width:700px){.flow{flex-direction:column;gap:6px}.flow .farrow{transform:rotate(90deg);align-self:center;padding:0}}
+#app{display:grid;grid-template-columns:390px 1fr;gap:22px;max-width:1180px;margin:22px auto 60px;padding:0 16px}
+@media(max-width:900px){#app{grid-template-columns:1fr}}
+#inputs{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;height:fit-content;box-shadow:0 1px 3px rgba(20,30,40,.05)}
+.lbl{display:block;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:15px 0 7px}
+.lbl:first-of-type{margin-top:0}
+.tin{width:100%;background:#fbfaf7;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:10px 12px;font-size:14px;font-family:inherit}
+.tin:focus{outline:none;border-color:var(--teal)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.segrow{display:flex;gap:7px;flex-wrap:wrap}
+.seg{border:1px solid var(--line);background:#fbfaf7;color:var(--dim);border-radius:9px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.seg.on{border-color:var(--teal);color:var(--teal-d);background:rgba(8,145,178,.07)}
+.mini{font-size:11.5px;color:var(--faint);margin-top:4px}
+.tip{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--line);color:var(--dim);font-size:10px;cursor:help;position:relative;vertical-align:middle}
+.tip .tipbox{display:none;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);width:230px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12px;color:var(--dim);z-index:20;text-transform:none;letter-spacing:0;font-weight:500;line-height:1.5;box-shadow:0 6px 20px -8px rgba(20,30,40,.25)}
+.tip:hover .tipbox,.tip:focus .tipbox{display:block}
+#runBtn{width:100%;margin-top:18px;border:none;border-radius:11px;padding:13px;font-weight:800;font-size:14.5px;background:var(--teal);color:#f0fbff;cursor:pointer;font-family:inherit}
+#runBtn:hover{filter:brightness(1.08)}
+.exbtn{width:100%;border:1px dashed var(--teal);background:rgba(8,145,178,.06);color:var(--teal-d);border-radius:10px;padding:10px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:14px;font-family:inherit}
+.exbtn:hover{background:rgba(8,145,178,.12)}
+.exbanner{display:none;background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.3);border-radius:10px;padding:9px 12px;font-size:12.5px;color:var(--dim);margin-bottom:14px}
+.exbanner b{color:var(--green)}
+/* output */
+.verdict{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:16px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,30,40,.05)}
+.verdict.warn{border-left-color:var(--gold)}
+.verdict.bad{border-left-color:var(--bad)}
+.verdict .vbig{font-size:30px;line-height:1}
+.verdict h3{font-size:15px;margin-bottom:3px}
+.verdict p{font-size:13px;color:var(--dim)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 14px;box-shadow:0 1px 3px rgba(20,30,40,.04)}
+.kpi .kl{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.kpi b{display:block;font-family:Fraunces,serif;font-size:20px;font-weight:700;margin-top:3px;color:var(--ink)}
+.kpi .kn{font-size:11px;color:var(--faint);margin-top:1px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,30,40,.04)}
+.card h4{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-d);margin-bottom:11px}
+.card p{font-size:13.5px;color:var(--dim);margin-bottom:8px}
+.card b{color:var(--ink)}
+.bar{height:9px;border-radius:99px;background:#efeae1;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),#22b8d4)}
+ul.plain{list-style:none;margin:4px 0 6px}
+ul.plain li{position:relative;padding-left:17px;margin-bottom:6px;font-size:13px;color:var(--dim)}
+ul.plain li:before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:2px;background:var(--teal);transform:rotate(45deg)}
+.watch{font-size:12.5px;color:var(--gold);margin-top:6px}
+.lockedsec{background:rgba(180,83,9,.05);border:1px dashed rgba(180,83,9,.35);border-radius:11px;padding:13px 15px;font-size:13px;color:var(--dim);margin-bottom:16px}
+.lockedsec b{color:var(--gold)}
+.lockbtn{display:inline-block;border:none;border-radius:9px;background:var(--gold);color:#fff8ef;font-weight:700;font-size:12.5px;padding:8px 14px;cursor:pointer;font-family:inherit;text-decoration:none;margin-top:8px}
+.rowbtns{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}
+.smallbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none}
+.cta-neso{display:flex;gap:13px;align-items:center;background:linear-gradient(120deg,rgba(8,145,178,.06),rgba(180,83,9,.05));border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-top:16px;flex-wrap:wrap}
+.cta-neso p{font-size:13px;color:var(--dim);flex:1;min-width:220px}
+.cta-neso b{color:var(--ink)}
+.cta-neso a{background:var(--teal);color:#f0fbff;font-weight:700;font-size:13px;border-radius:999px;padding:10px 17px;text-decoration:none}
+footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:var(--faint);text-align:center;line-height:1.7}
+#modal{position:fixed;inset:0;background:rgba(30,36,43,.45);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
+#modal.on{display:flex}
+#mcard{background:#fff;border:1px solid var(--line);border-radius:16px;max-width:460px;width:100%;padding:22px;position:relative;max-height:86vh;overflow:auto}
+#mcard h2{font-family:Fraunces,serif;font-size:20px;margin-bottom:10px}
+.closex{position:absolute;top:10px;right:14px;border:none;background:none;color:var(--dim);font-size:22px;cursor:pointer}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(90px);background:var(--ink);color:#fff;border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:600;z-index:90;transition:transform .25s}
+#toast.on{transform:translateX(-50%) translateY(0)}
+.tourhl{outline:2px solid var(--teal);outline-offset:3px;border-radius:10px;transition:outline .2s}
+#tourCard{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(140%);width:min(440px,92vw);background:#fff;border:1px solid var(--teal);border-radius:14px;padding:15px 17px;z-index:95;box-shadow:0 18px 50px -12px rgba(20,30,40,.3);transition:transform .3s}
+#tourCard.on{transform:translateX(-50%) translateY(0)}
+#tourCard .tstep{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--teal-d);text-transform:uppercase}
+#tourCard .ttext{font-size:13.5px;color:var(--ink);margin:5px 0 12px;line-height:1.5}
+#tourCard .tbtns{display:flex;gap:8px;justify-content:flex-end}
+#tourCard .tbtns button{border:1px solid var(--line);background:#fbfaf7;color:var(--dim);border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit}
+#tourCard .tbtns button.pri{background:var(--teal);border-color:var(--teal);color:#f0fbff}
+@media print{
+ header,.tagline,.flow,#inputs,.rowbtns,.lockedsec,.cta-neso,footer,#toast,#modal,#tourCard,.exbtn,.exbanner{display:none!important}
+ body{background:#fff;color:#000}
+ #app{display:block}
+ .card,.kpi,.verdict{border-color:#ccc;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div id="logo"><svg width="25" height="25" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="#0891b2" stroke-width="2.4"/><path d="M16 16 L16 6 A10 10 0 0 1 25.4 12.2 Z" fill="#0891b2" opacity=".85"/></svg> Market<b>Fit</b></div>
+  <div class="hsp"></div>
+  <button class="pill" id="tourBtn" title="Replay the 60-second tour">&#127891; Tour</button>
+  <button class="pill pro" id="proBtn">Go Pro</button>
+</header>
+
+<div class="tagline">
+  <h1>Is there room for <em>your move?</em></h1>
+  <p>First location, second location, new product line, new customer type &mdash; every expansion is a bet on the size of a market. MarketFit sizes the local pie, counts the seats at the table, and tells you honestly whether your slice pencils &mdash; before the lease is signed.</p>
+</div>
+
+<div class="flow" aria-label="How MarketFit works">
+  <div class="fstep"><div class="fn">1</div><div class="ft"><b>Describe the move</b><span>What you sell, what kind of expansion, where, and a few local numbers.</span></div></div>
+  <div class="farrow">&rarr;</div>
+  <div class="fstep"><div class="fn">2</div><div class="ft"><b>See the market math</b><span>Addressable customers, the annual pie in dollars, competition per slice, and your target share.</span></div></div>
+  <div class="farrow">&rarr;</div>
+  <div class="fstep"><div class="fn">3</div><div class="ft"><b>Get the honest read</b><span>Room, crowded, or wide open &mdash; plus the move-specific risks and the research to do next.</span></div></div>
+</div>
+
+<div id="app">
+  <div id="inputs">
+    <button class="exbtn" id="exBtn">&#9654; Load an example &mdash; see a finished market read first</button>
+    <div class="exbanner" id="exBanner"><b>Harborview Coffee</b> &mdash; a caf&eacute; weighing a second location in a 42,000-person suburb with 6 competitors. Watch the math &mdash; then swap in your numbers; they replace it instantly.</div>
+
+    <label class="lbl">Business name</label>
+    <input class="tin" id="bname" placeholder="e.g. Harborview Coffee">
+
+    <label class="lbl">What do you sell (short)</label>
+    <input class="tin" id="what" placeholder="e.g. specialty coffee & pastries">
+
+    <label class="lbl">What's the move?</label>
+    <div class="segrow" id="moveRow"></div>
+
+    <label class="lbl">Industry</label>
+    <div class="segrow" id="indRow"></div>
+
+    <label class="lbl">Who buys?</label>
+    <div class="segrow" id="custRow"></div>
+
+    <label class="lbl">The market area</label>
+    <input class="tin" id="area" placeholder="City / neighborhood, ST">
+    <div class="two" style="margin-top:10px">
+      <div><input class="tin" id="popIn" type="number" value="40000" min="0" step="1000"><div class="mini">Population (or businesses, if B2B) in the area <span class="tip" tabindex="0">?<span class="tipbox">Search "[city] population" \u2014 or for a radius, try the Census QuickFacts page. For B2B, estimate the number of target businesses in the area.</span></span></div></div>
+      <div><input class="tin" id="compIn" type="number" value="5" min="0"><div class="mini">Direct competitors nearby <span class="tip" tabindex="0">?<span class="tipbox">Search your category on Google Maps in the area and count the serious ones \u2014 the businesses a customer would genuinely choose instead of you.</span></span></div></div>
+    </div>
+
+    <label class="lbl">The money</label>
+    <div class="two">
+      <div><input class="tin" id="avgIn" type="number" value="12" min="0" step="1"><div class="mini">Average purchase ($)</div></div>
+      <div><input class="tin" id="freqIn" type="number" value="30" min="0" step="1"><div class="mini">Purchases per customer / year</div></div>
+    </div>
+
+    <label class="lbl">Revenue you need from this move ($/yr)</label>
+    <input class="tin" id="needIn" type="number" value="300000" min="0" step="10000">
+    <div class="mini">The annual revenue this location/line must produce to be worth doing.</div>
+
+    <button id="runBtn">Size the market &rarr;</button>
+    <p class="mini" style="margin-top:10px">Directional market math from your inputs and general category patterns &mdash; not a demand study or a guarantee. Validate with real local data before committing capital. Nothing you enter leaves this device.</p>
+  </div>
+
+  <div id="out"><div id="results"></div></div>
+</div>
+
+<footer><span class="np">MarketFit &middot; a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool &middot; v1.0 &middot; &copy; 2026 Boundless / Mallory Bailey-Finkley &mdash; all rights reserved &middot; <a href="https://tally.so/r/rj1Z15?source=marketfit" target="_blank" rel="noopener">Feedback</a> &middot; </span>Educational estimates only. Sister tools: <a href="https://nesoai.github.io/planforge/">PlanForge</a> + <a href="https://nesoai.github.io/grantfit/">GrantFit</a>.</footer>
+<div id="modal"><div id="mcard"><button class="closex" id="mClose">&times;</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
+<div id="toast"></div>
+<div id="tourCard" role="dialog" aria-label="Guided tour">
+  <div class="tstep" id="tourStep"></div>
+  <div class="ttext" id="tourText"></div>
+  <div class="tbtns"><button id="tourSkip">Skip</button><button class="pri" id="tourNext">Next</button></div>
+</div>
+
+<script>
+/* ============ MARKETFIT v1.0 ============ */
+const BUY_URL="mailto:nesoai.us@gmail.com?subject="+encodeURIComponent("Requesting MarketFit Pro ($19)")+"&body="+encodeURIComponent("Hi Boundless — I'd like MarketFit Pro. Please send my unlock code and how to pay."); // ← swap for Gumroad when live
+const PRICE_TXT="$19 one-time";
+const NESO_CTA="https://tally.so/r/q4MLYg?track=biz&services="+encodeURIComponent("Market Research (Standard)")+"&credits=8&source=marketfit";
+
+const $=id=>document.getElementById(id);
+const KEY='marketfit.v1';
+let S=Object.assign({pro:false},(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})());
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove('on'),2600)}
+const fm=n=>'$'+Math.round(n).toLocaleString('en-US');
+const fk=n=>Math.abs(n)>=1e6?('$'+(n/1e6).toFixed(1)+'M'):(Math.abs(n)>=1000?('$'+Math.round(n/1000)+'k'):fm(n));
+const esc=x=>String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---- selectors ---- */
+const MOVES=[['first','&#127793; First location'],['newloc','&#128205; New location'],['vert','&#11014;&#65039; Vertical (new product/service for same customers)'],['horiz','&#8596;&#65039; Horizontal (same offer, new customer type)'],['online','&#128421;&#65039; Adding online / going physical']];
+const INDS=[['food','Food & beverage'],['retail','Retail'],['services','Personal services'],['health','Health & wellness'],['trades','Trades / home services'],['prof','Professional services'],['other','Other']];
+const CUSTS=[['local','Local consumers'],['regional','Regional / online consumers'],['b2b','Businesses (B2B)']];
+let MOVE='newloc', IND='food', CUST='local';
+// penetration: share of the population that buys this category from someone at all, per year
+const PEN={food:0.55,retail:0.45,services:0.35,health:0.30,trades:0.25,prof:0.15,other:0.30};
+function segInit(rowId,items,get,set){
+  $(rowId).innerHTML=items.map(x=>`<button class="seg ${x[0]===get()?'on':''}" data-v="${x[0]}">${x[1]}</button>`).join('');
+  $(rowId).querySelectorAll('.seg').forEach(b=>b.onclick=()=>{set(b.dataset.v);$(rowId).querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',x===b));run();});
+}
+segInit('moveRow',MOVES,()=>MOVE,v=>MOVE=v);
+segInit('indRow',INDS,()=>IND,v=>IND=v);
+segInit('custRow',CUSTS,()=>CUST,v=>CUST=v);
+['bname','what','area','popIn','compIn','avgIn','freqIn','needIn'].forEach(id=>$(id).oninput=()=>run());
+$('runBtn').onclick=()=>{run();const r=$('results');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'});};
+
+/* ---- move-specific guidance ---- */
+const MOVEG={
+ first:{name:'First location',
+  risks:['You have no baseline — every assumption here is a guess until real customers vote. Small tests (pop-ups, pre-orders, a stall) beat big bets.',
+   'Fixed costs are the killer for first locations; size the lease to the pessimistic case, not the average one.'],
+  next:['Run a 4-week validation: pre-orders, a market stall, or a pop-up in the exact area.','Interview 10 people who match your target customer — would they switch from what they use now, and why?','Price the three best available spaces and test the math in PlanForge before signing anything.']},
+ newloc:{name:'New location',
+  risks:['Cannibalization: if the new area overlaps your current customer base, "new" revenue may just be relocated revenue. Map where existing customers actually come from first.',
+   'What made location one work may not travel — the manager, the corner, the anchor tenant. Name the ingredient before assuming it copies.'],
+  next:['Pull your existing customers\u2019 zip codes — how many already come from the new area?','Spend three separate days in the target area at your peak hours; count traffic at the competitor doors.','Model the new location standalone in PlanForge — it must pencil without help from location one.']},
+ vert:{name:'Vertical expansion',
+  risks:['Same customers, new offer — the market is capped by your existing audience unless the new line pulls new people. Be honest about which it is.',
+   'New products carry new operations (skills, suppliers, inventory). The margin on paper rarely survives the first six months of learning curve.'],
+  next:['Pre-sell the new offer to existing customers before building it — a sign-up list is the cheapest market study.','Check what share of competitors already bundle this — if all do, it\u2019s defense not growth; if none do, ask why.','Model the line\u2019s standalone margin in PlanForge including new labor and equipment.']},
+ horiz:{name:'Horizontal expansion',
+  risks:['A new customer type usually needs new messaging, channels, and sometimes pricing — the offer is the same but the business around it isn\u2019t.',
+   'Serving two segments can blur the brand that made the first one work. Decide what stays identical and what forks.'],
+  next:['Find 5 businesses already serving the new segment with a similar offer — what do they charge and how do they reach buyers?','Run one small paid test (ads, outreach, an event) aimed only at the new segment; measure cost per real inquiry.','Set a threshold: what monthly revenue from the new segment justifies the added complexity?']},
+ online:{name:'Online / channel expansion',
+  risks:['Online, your competitor count isn\u2019t the shops nearby — it\u2019s everyone shipping to your customer. The local math below understates online competition.',
+   'Fulfillment, returns, and platform fees routinely eat 15–30% — the online margin is not the in-store margin.'],
+  next:['List where target customers already buy this online and what shipping/price they accept.','Test one channel (one marketplace or your own site + local pickup) before building for all of them.','Recompute pricing with platform fees and shipping in PlanForge before launch.']}
+};
+
+/* ---- render ---- */
+function run(){
+  const out=$('results');
+  const pop=+$('popIn').value||0, comp=+$('compIn').value||0;
+  const avg=+$('avgIn').value||0, freq=+$('freqIn').value||0, need=+$('needIn').value||0;
+  const nm=($('bname').value||'').trim()||'Your business';
+  const area=($('area').value||'').trim()||'the target area';
+  if(!pop||!avg||!freq){out.innerHTML='<div class="card"><h4>Waiting on your numbers</h4><p>Add the population, average purchase, and frequency on the left &mdash; or load the example &mdash; and the market math builds here.</p></div>';return;}
+
+  const pen=PEN[IND]||0.3;
+  const buyers=Math.round(pop*pen);
+  const market=buyers*avg*freq;
+  const perSeat=market/(comp+1);
+  const needShare=market?need/market:0;
+  const custNeeded=avg*freq?Math.round(need/(avg*freq)):0;
+
+  /* verdict */
+  let vc='verdict', ve='&#9989;', vh, vp;
+  if(needShare<=0 ){ vh='Add the revenue you need for a full verdict.'; vp='The market math is below — enter the revenue target to see whether your slice pencils.'; }
+  else if(needShare>0.25){ vc='verdict bad'; ve='&#9940;';
+    vh='Honest read: you\u2019d need '+Math.round(needShare*100)+'% of the whole local market.';
+    vp='Very few businesses capture a quarter of a local category against '+comp+' competitors. Either the area is too small for the target ('+fk(need)+'), the target is too high, or the real market is bigger than this radius \u2014 widen the area, lower the number, or rethink the move.'; }
+  else if(needShare>0.12 || (comp>0 && need>perSeat*1.3)){ vc='verdict warn'; ve='&#9888;&#65039;';
+    vh='Tight: the math works only if you out-execute the incumbents.';
+    vp='You need ~'+Math.round(needShare*100)+'% market share \u2014 '+fk(need)+' against an average '+fk(perSeat)+' available per competitor. Possible, but it means taking customers, not just finding them. The differentiation question below is now the whole ballgame.'; }
+  else if(comp===0){ ve='&#129001;';
+    vh='Wide open \u2014 which is either great news or a warning.';
+    vp='No direct competitors and a needed share of just '+Math.max(1,Math.round(needShare*100))+'%. Before celebrating: zero competitors sometimes means zero demand. The validation steps below tell you which one this is.'; }
+  else { vh='There\u2019s room: your target is ~'+Math.max(1,Math.round(needShare*100))+'% of the market.';
+    vp='The local pie is ~'+fk(market)+'/year and the average seat at the table supports ~'+fk(perSeat)+'. Your '+fk(need)+' target is inside normal capture range for a well-run entrant \u2014 now it\u2019s about execution and the move-specific risks below.'; }
+
+  const G=MOVEG[MOVE];
+  const shareBar=Math.min(100,Math.round(needShare*100));
+
+  const kpis=[
+    ['Likely category buyers', buyers.toLocaleString(), Math.round(pen*100)+'% of '+pop.toLocaleString()+' ('+IND+' pattern)'],
+    ['Local market / year', fk(market), buyers.toLocaleString()+' \u00d7 '+fm(avg)+' \u00d7 '+freq+'/yr'],
+    ['Per competitor', fk(perSeat), 'market \u00f7 '+(comp+1)+' seats (incl. you)'],
+    ['Share you need', (needShare?Math.max(1,Math.round(needShare*100)):0)+'%', fk(need)+' target'],
+    ['Customers you need', custNeeded.toLocaleString(), 'at your price \u00d7 frequency']
+  ];
+
+  const research=[
+    'Verify the population/business count with Census QuickFacts or your city\u2019s data page \u2014 the free number above is only as good as this input.',
+    'Count competitors properly: search the category on Google Maps, list every serious one, note their reviews volume (a proxy for traffic).',
+    'Talk to 10 real target customers about what they use now and what would make them switch.',
+    'Check the category\u2019s trend: is local demand growing, flat, or being eaten by online?',
+    'Price the real estate / channel costs and test the whole model in PlanForge.',
+    'Look up whether the city/state offers incentives for your type of expansion (GrantFit gives the channels).',
+    'Find one comparable business in a similar-size market \u2014 what revenue do they appear to support?',
+    'Set a kill criterion now: what result from this research means \u201cdon\u2019t do it\u201d?'
+  ];
+  const shown=S.pro?research:research.slice(0,3);
+
+  out.innerHTML=`
+    <div class="${vc}"><div class="vbig">${ve}</div><div><h3>${vh}</h3><p>${vp}</p></div></div>
+    <div class="kpis">${kpis.map(k=>`<div class="kpi"><div class="kl">${k[0]}</div><b>${k[1]}</b><div class="kn">${k[2]}</div></div>`).join('')}</div>
+    <div class="card"><h4>Your slice of the pie</h4>
+      <p><b>${esc(nm)}</b> needs <b>${fk(need)}</b> from ${esc(area)} \u2014 that\u2019s the share below of a ~${fk(market)}/year local market${comp?(' shared with <b>'+comp+' direct competitor'+(comp>1?'s':'')+'</b>'):' with <b>no direct competitors</b> found'}.</p>
+      <div class="bar"><i style="width:${Math.max(2,shareBar)}%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>${Math.max(1,Math.round(needShare*100))}% needed share</span><span>100% = whole local market</span></div>
+    </div>
+    <div class="card"><h4>${G.name} \u2014 what this move specifically risks</h4>
+      <ul class="plain">${G.risks.map(r=>'<li>'+r+'</li>').join('')}</ul>
+      <h4 style="margin-top:12px">First moves for this play</h4>
+      <ul class="plain">${(S.pro?G.next:G.next.slice(0,1)).map(r=>'<li>'+r+'</li>').join('')}</ul>
+      ${S.pro?'':'<div class="watch">&#128274; '+(G.next.length-1)+' more moves in Pro</div>'}
+    </div>
+    <div class="card"><h4>The research checklist \u2014 before money moves</h4>
+      <ul class="plain">${shown.map(r=>'<li>'+r+'</li>').join('')}</ul>
+    </div>
+    ${S.pro?'':'<div class="lockedsec"><b>&#128274; Pro unlocks the full read:</b> all move-specific plays, the complete 8-step research checklist, and the printable market snapshot to share with a partner or lender. <button class="lockbtn" onclick="openPro()">Unlock \u2014 '+PRICE_TXT+'</button></div>'}
+    <div class="rowbtns">
+      <button class="smallbtn" id="printBtn">&#128424; Print market snapshot ${S.pro?'':'&#128274;'}</button>
+      <a class="smallbtn" href="https://nesoai.github.io/planforge/" target="_blank" rel="noopener">&#128200; Model the numbers (PlanForge)</a>
+    </div>
+    <div class="cta-neso"><p><b>Want the real study?</b> NESO\u2019s market research goes where the free math can\u2019t \u2014 verified data, competitor deep-dive, demand drivers, and a where-to-win read you can put in front of a lender or partner.</p><a href="${NESO_CTA}" target="_blank" rel="noopener">Have NESO research it &rarr;</a></div>`;
+
+  $('printBtn').onclick=()=>{ if(!S.pro) return openPro('The printable market snapshot is a Pro feature:'); window.print(); };
+}
+
+/* ============ EXAMPLE ============ */
+function loadExample(){
+  $('bname').value='Harborview Coffee'; $('what').value='specialty coffee & pastries';
+  MOVE='newloc'; IND='food'; CUST='local';
+  [['moveRow',MOVE],['indRow',IND],['custRow',CUST]].forEach(([r,v])=>$(r).querySelectorAll('.seg').forEach(x=>x.classList.toggle('on',x.dataset.v===v)));
+  $('area').value='Fairfield Heights, MA'; $('popIn').value=42000; $('compIn').value=6;
+  $('avgIn').value=9.5; $('freqIn').value=42; $('needIn').value=340000;
+  run();
+  $('exBanner').style.display='block';
+  toast('Example loaded \u2014 swap in your numbers anytime');
+  try{ if(typeof gtag==='function') gtag('event','example_load',{tool:'marketfit'}); }catch(e){}
+}
+$('exBtn').onclick=loadExample;
+
+/* ============ PRO ============ */
+const REDEEM_URL='https://neso-pro.nesoai-us.workers.dev/redeem';
+async function redeemCode(c){
+  c=(c||'').trim().toUpperCase();
+  if(!/^MFT-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)) return {ok:false,msg:'That code doesn\u2019t look right'};
+  try{
+    const r=await fetch(REDEEM_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tool:'marketfit',code:c})});
+    const j=await r.json();
+    if(j.ok) return {ok:true};
+    if(j.reason==='used') return {ok:false,msg:'That code has already been used'};
+    return {ok:false,msg:'That code doesn\u2019t look right'};
+  }catch(e){ return {ok:false,msg:'Couldn\u2019t reach the unlock server \u2014 check your connection and try again'}; }
+}
+function openModal(t,b){$('mTitle').textContent=t;$('mBody').innerHTML=b;$('modal').classList.add('on');}
+$('mClose').onclick=()=>$('modal').classList.remove('on');
+$('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('on');};
+function openPro(msg){
+  openModal('MarketFit Pro',`<p>${msg||'One unlock, yours forever on this device:'}</p>
+   <ul style="color:var(--dim);font-size:13.5px;line-height:1.9;padding-left:18px;margin:8px 0 14px">
+     <li>Every move-specific play (free shows the first)</li>
+     <li>The full 8-step pre-commitment research checklist</li>
+     <li>Printable market snapshot for partners &amp; lenders</li></ul>
+   <a class="lockbtn" href="${BUY_URL}" target="_blank" rel="noopener">Request Pro &mdash; ${PRICE_TXT} &rarr;</a>
+   <div style="display:flex;gap:8px;align-items:center;margin-top:14px">
+     <input class="tin" id="codeIn" placeholder="MFT-XXXX-XXXX" style="flex:1">
+     <button class="lockbtn" id="applyCode" style="background:var(--green);color:#fff;margin:0">Apply</button></div>`);
+  $('applyCode').onclick=async()=>{const b=$('applyCode');b.disabled=true;b.textContent='\u2026';
+    const r=await redeemCode($('codeIn').value);b.disabled=false;b.textContent='Apply';
+    if(r.ok){S.pro=true;save();proUI();$('modal').classList.remove('on');toast('\ud83c\udf89 Pro unlocked');run();}
+    else toast(r.msg);};
+}
+function proUI(){$('proBtn').textContent=S.pro?'\u2713 Pro':'Go Pro';$('proBtn').className='pill '+(S.pro?'prodone':'pro');}
+$('proBtn').onclick=()=>S.pro?toast('Pro is active on this device \u2713'):openPro();
+
+/* ============ TOUR ============ */
+const TOUR=[
+ ['moveRow','Step 1 of 5','Start with <b>the kind of move</b> \u2014 a first location, a second one, or a new line each fail differently, and the read adapts to which bet you\u2019re making.'],
+ ['popIn','Step 2 of 5','<b>Two numbers you can find in 5 minutes</b>: the area\u2019s population (search it) and a competitor count from Google Maps. The tooltips show exactly where to look.'],
+ ['needIn','Step 3 of 5','<b>The honest anchor:</b> the revenue this move must produce. Everything gets judged against whether that\u2019s a reasonable slice of the real local pie.'],
+ ['out','Step 4 of 5','The verdict is blunt \u2014 <b>room, tight, or you\u2019d need a quarter of the market</b> \u2014 plus the risks specific to your kind of move and the research to do before money moves.'],
+ ['exBtn','Step 5 of 5','Fastest way to learn it: <b>load the example</b>, then swap in your own area and watch the verdict change. Nothing is saved anywhere but this device.']
+];
+let tourI=-1;
+function tourClear(){document.querySelectorAll('.tourhl').forEach(e=>e.classList.remove('tourhl'));}
+function tourShow(i){
+  tourClear();
+  if(i>=TOUR.length){ $('tourCard').classList.remove('on'); try{localStorage.setItem('marketfit.tour','done')}catch(e){}; return; }
+  tourI=i; const [id,st,tx]=TOUR[i];
+  const el=$(id); if(el){ el.classList.add('tourhl'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  $('tourStep').textContent=st; $('tourText').innerHTML=tx;
+  $('tourNext').textContent = i===TOUR.length-1 ? 'Done' : 'Next';
+  $('tourCard').classList.add('on');
+}
+$('tourNext').onclick=()=>tourShow(tourI+1);
+$('tourSkip').onclick=()=>tourShow(TOUR.length);
+$('tourBtn').onclick=()=>tourShow(0);
+setTimeout(()=>{ try{ if(!localStorage.getItem('marketfit.tour')) tourShow(0); }catch(e){} },1100);
+
+proUI(); run();
+</script>
+</body></html>
