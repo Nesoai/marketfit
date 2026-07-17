@@ -30,11 +30,11 @@ header{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:
 .tagline h1 em{font-style:italic;color:var(--teal)}
 .tagline p{color:var(--dim);font-size:13.5px;margin:6px auto 0;max-width:76ch}
 .flow{display:flex;align-items:stretch;gap:0;max-width:980px;margin:14px auto 0;padding:0 16px}
-.flow .fstep{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;text-align:left;display:flex;gap:10px;align-items:flex-start;min-width:0;box-shadow:0 1px 3px rgba(20,30,40,.04)}
+.flow .fstep{flex:1;background:var(--teal);border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:11px 13px;text-align:left;display:flex;gap:10px;align-items:flex-start;min-width:0;box-shadow:0 1px 3px rgba(20,30,40,.04)}
 .flow .fn{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#f0fbff;font-weight:800;font-size:12.5px;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
 .flow .ft b{display:block;font-size:12.5px;color:var(--ink)}
 .flow .ft span{font-size:11.5px;color:var(--dim);line-height:1.45}
-.flow .farrow{align-self:center;color:var(--faint);font-size:17px;padding:0 7px;flex-shrink:0}
+.flow .farrow{align-self:center;color:var(--faint);font-size:17px;padding:0 7px;flex-shrink:0}.flow .ft b{color:#fff}.flow .ft span{color:rgba(255,255,255,.85)}.flow .fn{background:#fff;color:var(--teal)}
 @media(max-width:700px){.flow{flex-direction:column;gap:6px}.flow .farrow{transform:rotate(90deg);align-self:center;padding:0}}
 #app{display:grid;grid-template-columns:390px 1fr;gap:22px;max-width:1180px;margin:22px auto 60px;padding:0 16px}
 @media(max-width:900px){#app{grid-template-columns:1fr}}
@@ -110,6 +110,12 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
  #app{display:block}
  .card,.kpi,.verdict{border-color:#ccc;box-shadow:none}
 }
+.probar{max-width:1240px;margin:16px auto -6px;padding:0 16px}
+.probarin{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--card);border:1.5px solid var(--teal);border-radius:13px;padding:12px 16px}
+.probarin .pv{font-weight:800;font-size:13px;color:var(--teal);white-space:nowrap}
+.probarin .pb{flex:1;min-width:240px;font-size:12.5px;color:var(--dim);line-height:1.5}
+.probarin button{border:none;border-radius:999px;background:var(--teal);color:#fff;font-weight:700;font-size:12.5px;padding:9px 16px;cursor:pointer;font-family:inherit;white-space:nowrap}
+@media print{.probar{display:none!important}}
 </style>
 </head>
 <body>
@@ -133,6 +139,7 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
   <div class="fstep"><div class="fn">3</div><div class="ft"><b>Get the honest read</b><span>Room, crowded, or wide open &mdash; plus the move-specific risks and the research to do next.</span></div></div>
 </div>
 
+<div class="probar" id="probar"><div class="probarin"><span class="pv">&#11088; Pro &mdash; $19 one-time</span><span class="pb">Every move-specific play &middot; the 8-step research checklist &middot; printable market snapshot</span><button onclick="openPro()">See what Pro adds &rarr;</button></div></div>
 <div id="app">
   <div id="inputs">
     <button class="exbtn" id="exBtn">&#9654; Load an example &mdash; see a finished market read first</button>
@@ -177,7 +184,7 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
   <div id="out"><div id="results"></div></div>
 </div>
 
-<footer><span class="np">MarketFit &middot; a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool &middot; v1.0 &middot; &copy; 2026 Boundless / Mallory Bailey-Finkley &mdash; all rights reserved &middot; <a href="https://tally.so/r/rj1Z15?source=marketfit" target="_blank" rel="noopener">Feedback</a> &middot; </span>Educational estimates only. Sister tools: <a href="https://nesoai.github.io/planforge/">PlanForge</a> + <a href="https://nesoai.github.io/grantfit/">GrantFit</a>.</footer>
+<footer><span class="np">MarketFit &middot; a <a href="https://nesoai.github.io/mallory/" target="_blank" rel="noopener">Boundless</a> tool &middot; v1.2 &middot; &copy; 2026 Boundless / Mallory Bailey-Finkley &mdash; all rights reserved &middot; <a href="https://tally.so/r/rj1Z15?source=marketfit" target="_blank" rel="noopener">Feedback</a> &middot; </span>Educational estimates only. Sister tools: <a href="https://nesoai.github.io/planforge/">PlanForge</a> + <a href="https://nesoai.github.io/grantfit/">GrantFit</a>.</footer>
 <div id="modal"><div id="mcard"><button class="closex" id="mClose">&times;</button><h2 id="mTitle"></h2><div id="mBody"></div></div></div>
 <div id="toast"></div>
 <div id="tourCard" role="dialog" aria-label="Guided tour">
@@ -188,7 +195,7 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
 
 <script>
 /* ============ MARKETFIT v1.0 ============ */
-const BUY_URL="mailto:nesoai.us@gmail.com?subject="+encodeURIComponent("Requesting MarketFit Pro ($19)")+"&body="+encodeURIComponent("Hi Boundless — I'd like MarketFit Pro. Please send my unlock code and how to pay."); // ← swap for Gumroad when live
+const BUY_URL="https://nesoai.gumroad.com/l/vstlk"; // ← swap for Gumroad when live
 const PRICE_TXT="$19 one-time";
 const NESO_CTA="https://tally.so/r/q4MLYg?track=biz&services="+encodeURIComponent("Market Research (Standard)")+"&credits=8&source=marketfit";
 
@@ -368,7 +375,7 @@ function openPro(msg){
     if(r.ok){S.pro=true;save();proUI();$('modal').classList.remove('on');toast('\ud83c\udf89 Pro unlocked');run();}
     else toast(r.msg);};
 }
-function proUI(){$('proBtn').textContent=S.pro?'\u2713 Pro':'Go Pro';$('proBtn').className='pill '+(S.pro?'prodone':'pro');}
+function proUI(){const _pb=document.getElementById("probar");if(_pb)_pb.style.display=S.pro?"none":"";$('proBtn').textContent=S.pro?'\u2713 Pro':'Go Pro';$('proBtn').className='pill '+(S.pro?'prodone':'pro');}
 $('proBtn').onclick=()=>S.pro?toast('Pro is active on this device \u2713'):openPro();
 
 /* ============ TOUR ============ */
