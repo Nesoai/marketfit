@@ -201,7 +201,7 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
 
 <script>
 /* ============ MARKETFIT v1.0 ============ */
-const BUY_URL="https://nesoai.gumroad.com/l/vstlk"; // ← swap for Gumroad when live
+const BUY_URL="https://nesohq.gumroad.com/l/vstlk"; // ← swap for Gumroad when live
 const PRICE_TXT="$19 one-time";
 const NESO_CTA="https://neso-queue.nesoai-us.workers.dev/form/intake?track=biz&services="+encodeURIComponent("Market Research (Standard)")+"&credits=8&source=marketfit";
 
@@ -375,7 +375,7 @@ function openPro(msg){
    <a class="lockbtn" href="${BUY_URL}" target="_blank" rel="noopener">Request Pro &mdash; ${PRICE_TXT} &rarr;</a>
    <div style="display:flex;gap:8px;align-items:center;margin-top:14px">
      <input class="tin" id="codeIn" placeholder="MFT-XXXX-XXXX" style="flex:1">
-     <button class="lockbtn" id="applyCode" style="background:var(--green);color:#fff;margin:0">Apply</button></div>`);
+     <button class="lockbtn" id="applyCode" style="background:var(--green);color:#fff;margin:0">Apply</button></div><div style="font-size:12px;color:var(--dim);line-height:1.55;margin-top:12px">Your single-use code is emailed by a NESO principal &mdash; usually the same business day, and always within one business day. If it has not arrived, text (901)&nbsp;295-0322 and we will send it immediately.</div>`);
   $('applyCode').onclick=async()=>{const b=$('applyCode');b.disabled=true;b.textContent='\u2026';
     const r=await redeemCode($('codeIn').value);b.disabled=false;b.textContent='Apply';
     if(r.ok){S.pro=true;save();proUI();$('modal').classList.remove('on');toast('\ud83c\udf89 Pro unlocked');run();}
