@@ -121,11 +121,21 @@ footer{border-top:1px solid var(--line);padding:20px 18px;font-size:12px;color:v
 #scrollTop.on{display:flex}
 #scrollTop:hover{filter:brightness(1.12)}
 @media print{#scrollTop{display:none!important}}
+
+/* "By NESO" byline — v2 house rule: every tool says whose it is, quietly, under
+   its own name. The tools are the top of NESO's funnel; a visitor who likes one
+   and cannot tell who made it is a lead lost to good work. */
+#logo{position:relative}
+#logo .byneso{display:block;font-family:Inter,system-ui,sans-serif;font-size:9.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint,#8698aa);margin-top:1px}
+#logo .byneso a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+#logo .byneso a:hover{color:var(--ink,#e9eef4);border-bottom-color:currentColor}
+#logo .lgwrap{display:flex;flex-direction:column;line-height:1.12}
 </style>
 </head>
 <body>
 <header>
-  <div id="logo"><svg width="25" height="25" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="#0891b2" stroke-width="2.4"/><path d="M16 16 L16 6 A10 10 0 0 1 25.4 12.2 Z" fill="#0891b2" opacity=".85"/></svg> Market<b>Fit</b></div>
+  <div id="logo"><svg width="25" height="25" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="#0891b2" stroke-width="2.4"/><path d="M16 16 L16 6 A10 10 0 0 1 25.4 12.2 Z" fill="#0891b2" opacity=".85"/></svg><span class="lgwrap"><span>Market<b>Fit</b></span><span class="byneso"><a href="https://nesohq.com/" target="_blank" rel="noopener">by NESO</a></span></span></div>
   <div class="hsp"></div>
   <button class="pill" id="tourBtn" title="Replay the 60-second tour">&#127891; Tour</button>
   <button class="pill pro" id="proBtn">Go Pro</button>
