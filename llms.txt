@@ -1,0 +1,35 @@
+# MarketFit
+
+> MarketFit sizes the local market for your startup or expansion — first location, new location, vertical or horizontal move — and gives you an honest read: how big the pie is, how crowded the table is, and whether your slice pencils.
+
+MarketFit is a free web tool at https://marketfit.nesohq.com/. It runs in the browser with no account.
+It is for founders and owners planning a first location, a new location or an expansion.
+
+## Questions MarketFit answers
+
+- **How do I size the market for a local business?** Build it bottom-up: households or businesses in the trade area, multiplied by how often they buy, multiplied by what they spend.
+- **Why do lenders prefer bottom-up market sizing?** Because every assumption is visible and can be argued with.
+- **How many competitors is too many?** There is no fixed number — what matters is spend per competitor in the trade area.
+- **Is there room for another business like mine in my town?** The honest test is whether the remaining demand after existing operators still supports your fixed costs at a realistic share.
+
+## Use it
+
+- [Open MarketFit](https://marketfit.nesohq.com/)
+
+## About NESO
+
+MarketFit is made by NESO HQ LLC, which offers advisory services, research reports and free tools for founders,
+small businesses, developers and municipalities: https://nesohq.com/ (its llms.txt: https://nesohq.com/llms.txt).
+Questions: hello@nesohq.com · (901) 295-0322.
+
+## Other free NESO tools
+
+- [GrantFit](https://grantfit.nesohq.com/)
+- [PlanForge](https://planforge.nesohq.com/)
+- [MarketScope](https://marketscope.nesohq.com/)
+- [CapStack](https://capstack.nesohq.com/)
+- [ProForma](https://proforma.nesohq.com/)
+- [SiteShaper](https://siteshaper.nesohq.com/)
+- [BuildBrief](https://buildbrief.nesohq.com/)
+- [Bird's Eye instant read](https://birdseye.nesohq.com/): a free first look at a parcel, with written reports quoted to scope.
+- [NESO for Contractors](https://contractors.nesohq.com/): free public bids and state-by-state guides for contractors.
